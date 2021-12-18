@@ -6,7 +6,7 @@ Info::~Info() {}
 void Info::_init() {
   p_top_section = make_unique<Section>("top", 1);
   p_player_banner =
-    make_unique<Section>("Player banner", p_banners[m_turn]->size());
+      make_unique<Section>("Player banner", p_banners[m_turn]->size());
   p_board_score = make_unique<Section>("[Board Score]", 4);
   p_player_2_captures = make_unique<Section>("[Black captures]", 4);
   p_player_1_captures = make_unique<Section>("[White Captures]", 4);
@@ -30,12 +30,10 @@ void Info::clear() {
   m_drawing.fill(
       " ┃                                                          ┃");
 
-  p_top_section->set_content({
-      " ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
-      });
-  p_bottom_section->set_content({
-      " ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
-      });
+  p_top_section->set_content(
+      {" ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"});
+  p_bottom_section->set_content(
+      {" ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"});
 }
 
 void Info::draw() {
@@ -52,27 +50,28 @@ void Info::draw() {
   format_block(p_game_info, game_info);
 }
 
-void Info::clear_block() {
-  m_drawing.clear();
+void Info::clear_block() { m_drawing.clear(); }
+
+void Info::format_block(shared_ptr<Section> &block, string content) {
+  if (block == nullptr)
+    return;
+
+  if (!has_block_space_for_content(block, content))
+    return;
+
+  set_content_to_block_recursively(block, block->get_name() + ": " + content,
+                                   0);
 }
 
-void Info::format_block(shared_ptr<Section>& block, string content) {
-  if (block == nullptr) return;
-
-  if (!has_block_space_for_content(block, content)) return;
-
-  set_content_to_block_recursively(
-      block, block->get_name() + ": " + content, 0);
-}
-
-bool Info::has_block_space_for_content(
-    const shared_ptr<Section>& block, const string& message) {
+bool Info::has_block_space_for_content(const shared_ptr<Section> &block,
+                                       const string &message) {
   return message.size() < kRowMaxLen * (block->size() - 1);
 }
 
-void Info::set_content_to_block_recursively(shared_ptr<Section>& block,
-    string msg, int current_row) {
-  if (current_row > block->size()) return;
+void Info::set_content_to_block_recursively(shared_ptr<Section> &block,
+                                            string msg, int current_row) {
+  if (current_row > block->size())
+    return;
 
   if (msg.size() < kRowMaxLen) {
     block->set_content_at_index(format_line(msg), current_row);
@@ -85,27 +84,23 @@ void Info::set_content_to_block_recursively(shared_ptr<Section>& block,
   string row_content = msg.substr(0, kRowMaxLen);
   block->set_content_at_index(format_line(row_content), current_row);
 
-  msg = msg.substr(kRowMaxLen/* to_end */);
+  msg = msg.substr(kRowMaxLen /* to_end */);
   set_content_to_block_recursively(block, msg, ++current_row);
 }
 
 string Info::format_line(string line) {
   int num_spaces = kRowMaxLen - line.size();
-  return  " ┃ " + line + std::string(num_spaces, ' ') + "┃";
+  return " ┃ " + line + std::string(num_spaces, ' ') + "┃";
 }
 
-void Info::save_move(const string& moves) {
+void Info::save_move(const string &moves) {
   player_moves[m_turn] += " " + moves;
 }
 
-void Info::save_capture(const string& captures) {
+void Info::save_capture(const string &captures) {
   player_captures[m_turn] += " " + captures;
 }
 
-void Info::update_turn(players turn) {
-  m_turn = turn;
-}
+void Info::update_turn(players turn) { m_turn = turn; }
 
-void Info::save_game_info(const string& info) {
-  game_info = info;
-}
+void Info::save_game_info(const string &info) { game_info = info; }

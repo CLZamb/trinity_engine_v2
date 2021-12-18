@@ -31,7 +31,7 @@ class Game: public GameTurnObservable {
     string get_play_or_quit_selection();
     string get_current_player_input();
     Players players;
-    Messages m_messages;
+    // GameDrawings m_messages;
     BoardWithInfo m_board;
 
     GameTurn::players m_turn = GameTurn::player_1;

@@ -1,5 +1,5 @@
-#ifndef DRAWINGS_H
-#define DRAWINGS_H
+#ifndef PIECE_DRAWINGS_H
+#define PIECE_DRAWINGS_H
 
 #include "box.h"
 #include <string>
@@ -7,7 +7,7 @@
 #include <map>
 #include <iostream>
 #include <vector>
-#include "../../graphics//headers/game_drawings.hpp"
+#include "../../graphics/headers/drawings.hpp"
 #include "../../board/headers/utils.h"
 
 using std::map;
@@ -222,4 +222,4 @@ class StandardDrawingBuilder : public DrawingBuilder {
 };
 
 //
-#endif /* DRAWINGS_H */
+#endif /* PIECE_DRAWINGS_H */

@@ -4,12 +4,12 @@
 #include<string>
 #include<iostream>
 #include"../../board/headers/board_with_info.h"
+#include"graphics/headers/game_drawings.hpp"
+#include"graphics/headers/pane.h"
 #include"window.h"
-#include"messages.h"
+// #include"game_drawings.hpp.h"
 
 using std::string;
-using std::cout;
-using std::endl;
 
 class View {
   public:
@@ -31,11 +31,32 @@ class BoardView : public View {
     }
 };
 
-class MessageView : public View {
+class MenuView : public View , public Displayable {
   public: 
-    MessageView(Messages* messages) : View("Messages") {
-      window_view.add_pane(messages, Window::Left_pane);
+    MenuView() : View("Messages"), Displayable(3) {
+      m_drawing.add_section(p_main);
+      window_view.add_pane(this, Window::Left_pane);
     }
+
+    void update_menu_view(DrawingsState* state) {
+      m_game_drawing.set_drawing(state);
+    }
+
+    DrawingsState* get_play_or_quit_menu() {
+      return m_game_drawing.get_play_or_quit();
+    }
+
+    DrawingsState* get_play_players_options_menu() {
+      return m_game_drawing.get_players_options();
+    }
+
+    void draw() {
+      m_drawing.fill(m_game_drawing.get_drawing().data());
+    }
+
+  private:
+    shared_ptr<Section> p_main = std::make_shared<Section>("main", 1);
+    GameDrawings m_game_drawing;
 };
  
 #endif /* VIEW_H */

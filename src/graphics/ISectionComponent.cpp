@@ -11,7 +11,7 @@ void ISectionComponent::set_parent_pane(Pane* parent_pane) {
   this->parent_pane = parent_pane;
 }
 
-int ISectionComponent::size() {
+size_t ISectionComponent::size() {
   return m_size;
 }
 

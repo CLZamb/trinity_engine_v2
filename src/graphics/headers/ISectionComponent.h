@@ -16,7 +16,7 @@ class ISectionComponent {
   vector<string>::iterator begin();
   vector<string>::iterator end();
   void set_parent_pane(Pane* parent);
-  int size();
+  size_t size();
 
  protected:
   vector<string> m_section_drawing;

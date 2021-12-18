@@ -1,5 +1,4 @@
 #include "headers/window.h"
-
 Window::Window() {}
 Window::~Window() {}
 

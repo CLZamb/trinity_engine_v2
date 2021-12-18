@@ -12,6 +12,7 @@ bool Board::is_checkmate() { return checkmate; }
 
 bool Board::is_legal_move(std::shared_ptr<Player> turn, Move& m) {
   if (!exist_piece_at_square(m.get_from())) return false;
+
   if (!check_piece_belongs_to_current_player(turn, m.get_from())) return false; 
 
   if (is_attack_move(turn->get_opponent(), m.get_to())) {

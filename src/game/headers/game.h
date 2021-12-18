@@ -2,8 +2,8 @@
 #define GAME_H
 
 #include "../../graphics/headers/uicontroller.h"
-// #include "../search/headers/uci.h"
-// #include "../ipc/headers/ipc_pipe.h"
+#include "../../search/headers/uci.h"
+#include "../../ipc/headers/ipc_pipe.h"
 #include "../../player/headers/player.h"
 #include "../../player/headers/players.h"
 #include "../headers/move_utils.h"
@@ -31,7 +31,6 @@ class Game: public GameTurnObservable {
     string get_play_or_quit_selection();
     string get_current_player_input();
     Players players;
-    // GameDrawings m_messages;
     BoardWithInfo m_board;
 
     GameTurn::players m_turn = GameTurn::player_1;

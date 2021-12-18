@@ -1,8 +1,6 @@
 #include "headers/board_with_info.h"
 
-BoardWithInfo::BoardWithInfo() {
-  m_info._init();
-}
+BoardWithInfo::BoardWithInfo() {}
 BoardWithInfo::~BoardWithInfo() {}
 
 void BoardWithInfo::make_move(Move m) {

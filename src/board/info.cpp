@@ -1,20 +1,6 @@
 #include "headers/info.h"
 
-Info::Info() : Displayable() {}
-Info::~Info() {}
-
-void Info::_init() {
-  p_top_section = make_unique<Section>("top", 1);
-  p_player_banner =
-      make_unique<Section>("Player banner", p_banners[m_turn]->size());
-  p_board_score = make_unique<Section>("[Board Score]", 4);
-  p_player_2_captures = make_unique<Section>("[Black captures]", 4);
-  p_player_1_captures = make_unique<Section>("[White Captures]", 4);
-  p_player_2_moves = make_unique<Section>("[Black moves]", 9);
-  p_player_1_moves = make_unique<Section>("[White Moves]", 9);
-  p_game_info = make_unique<Section>("[Game info]", 5);
-  p_bottom_section = make_unique<Section>("bottom", 1);
-
+Info::Info() : Displayable() {
   m_drawing.add_section(p_top_section);
   m_drawing.add_section(p_player_banner);
   m_drawing.add_section(p_board_score);
@@ -25,6 +11,8 @@ void Info::_init() {
   m_drawing.add_section(p_game_info);
   m_drawing.add_section(p_bottom_section);
 }
+
+Info::~Info() {}
 
 void Info::clear() {
   m_drawing.fill(

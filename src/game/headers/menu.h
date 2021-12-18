@@ -7,41 +7,31 @@
 #include "options.h"
 #include "player/headers/player.h"
 
-
-template<typename T>
-class Menu {
+template <typename T> class Menu {
 public:
   Menu() {}
-  Menu(MenuList<T> opts) : opts(opts) {}
+  Menu(MenuList<T> opts) : opts(opts), view(add_options_to_view(opts)) {}
   virtual ~Menu() {}
-  void print_menu()  {
-    view.print();
-  }
-  
-  T select_option() {
-    return select_menu_item().opt;
-  }
-  
-  void print_play_or_quit() {
-    print(view.get_play_or_quit_menu());
-  }
 
-  void print_players_options() {
-    print(view.get_play_players_options_menu());
-  }
+  T select_option() { return select_menu_item().opt; }
 
-  MenuItem<T>& select_menu_item() {
-    cout << "\t\tchoose one of the options:\n\t\t>> ";
+  void print_menu() { view.print(); }
+
+  void set_menu_drawing(string str) { str_view = str; }
+
+  MenuItem<T> &select_menu_item() {
+    cout << "\t\t\tchoose one of the options:\n";
 
     int input = -1;
     bool valid_option = false;
 
     while (!valid_option) {
+      cout << "\t\t\t>> ";
       cin >> input;
       valid_option = opts.check_valid_option(input);
 
       if (!valid_option) {
-        cout << "invalid option try again!" << endl;
+        cout << "\n\t\t\tinvalid option try again!" << endl;
         cin.clear();
         cin.ignore();
       }
@@ -53,13 +43,20 @@ public:
   }
 
 private:
-  void print(DrawingsState* state) {
-    view.update_menu_view(state);
-    view.print();
+  vector<string> add_options_to_view(MenuList<T> &opts) {
+    vector<string> options;
+    string str_menu_item;
+    for (const auto &menuItem : opts) {
+      MenuItem<T> item = menuItem.second;
+      str_menu_item = std::to_string(item.number_option) + ". " + item.name;
+      options.push_back(str_menu_item);
+    }
+    return options;
   }
 
   MenuList<T> opts;
   MenuView view;
+  string str_view;
 };
 
-#endif /* MENU_H */ 
+#endif /* MENU_H */

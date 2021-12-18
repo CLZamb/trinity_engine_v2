@@ -9,10 +9,10 @@ class DrawingsState {
  public:
   explicit DrawingsState(GameDrawings* msg);
   virtual ~DrawingsState();
-  const std::string_view get_message() { return p_message; }
+  const std::string_view get_drawing() { return m_string_drawing; }
  protected:
   GameDrawings* p_messages = nullptr;
-  std::string_view p_message;
+  std::string_view m_string_drawing;
 };
 
 struct Play_or_quit : public DrawingsState {
@@ -36,6 +36,16 @@ struct Choose_color : public DrawingsState {
 struct No_message : public DrawingsState {
  public:
   explicit No_message(GameDrawings* msg);
+};
+
+struct Top_Menu : public DrawingsState {
+ public:
+  explicit Top_Menu(GameDrawings* msg);
+};
+
+struct Bottom_Menu : public DrawingsState {
+ public:
+  explicit Bottom_Menu(GameDrawings* msg);
 };
 
 

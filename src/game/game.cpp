@@ -27,10 +27,6 @@ void Game::setup_players(PlayerConfig pc) {
 }
 
 void Game::play() {
-  if (!game_players_exists()) {
-    return;
-  }
-
   string player_input = "";
 
   while (!m_board.is_checkmate()) {
@@ -75,14 +71,6 @@ bool Game::is_legal_move(const string &str_player_move) {
                            " } is an ilegal move");
 
   return false;
-}
-
-bool Game::game_players_exists() {
-  if (game_turn == nullptr) {
-    cout << "players don't exists" << endl;
-    return false;
-  }
-  return true;
 }
 
 bool Game::has_player_quit(const string &str) {

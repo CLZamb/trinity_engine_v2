@@ -1,4 +1,4 @@
-#include "headers/Idisplay.h"
+#include "Idisplay.h"
 
 Displayable::Displayable(size_t size /* = 44 */) : m_drawing(size) {}
 

@@ -1,16 +1,26 @@
 CHESS GAME TODO
-
-1) add special moves, en pessant, king-rook,etc
-2) check checkmate move
-3) let the player choose a side
-4) change color of the pieces for different types of terminals
+3) change color of the pieces for different types of terminals
 
 -- version 3
-1) use the library FTXUI https://github.com/ArthurSonzogni/FTXUI
-2) create different config ie: 
+a) check checkmate move
+0) use TDD
+1) Use model view controller
+1.1) remake move to contain only a unsigned int, use namespace move_utils to store functions
+2) use the library FTXUI https://github.com/ArthurSonzogni/FTXUI
+3) create different config ie: 
   1) Passing through command like g++ Chess param param etc.
   2) Config from a file setup.txt players = cpu vs cpu
   3) UI input from te player at running time
-3) add options menu (change color, side, remove the side info, etc)
-4) Choose dificulty
-5) Allow the user to save/load or continue the game
+4) add options menu (change color, side, remove the side info,add pane for more info, etc)
+5) Choose dificulty 1-3
+6) Allow the user to save/load or continue the game
+7) add poly book
+
+-- version 4
+1) online capabilities like https://lichess.org
+2) dificulty 1-10
+3) time limited
+4) choose side
+5) hide and show info using keybind
+5) add expectator options.
+6) add sound

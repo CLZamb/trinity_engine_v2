@@ -1,4 +1,4 @@
-#include "headers/game_drawings.hpp"
+#include "game_drawings.hpp"
 
 GameDrawings::GameDrawings() :
   m_no_message(this),
@@ -8,9 +8,9 @@ GameDrawings::GameDrawings() :
   m_choose_color(this),
   m_top_menu(this),
   m_bottom_menu(this),
+  m_player_1_won(this),
+  m_player_2_won(this),
   p_current_state(&m_no_message) {}
-
-GameDrawings::~GameDrawings() {}
 
 std::string_view GameDrawings::get_drawing() {
   return p_current_state->get_drawing();
@@ -51,4 +51,12 @@ DrawingsState* GameDrawings::get_top_menu() {
 
 DrawingsState* GameDrawings::get_bottom_menu() {
   return &m_bottom_menu;
+}
+
+DrawingsState* GameDrawings::get_player_1_won() {
+  return &m_player_1_won;
+}
+
+DrawingsState* GameDrawings::get_player_2_won() {
+  return &m_player_2_won;
 }

@@ -1,4 +1,4 @@
-#include "headers/pieces_drawings.hpp"
+#include "pieces_drawings.hpp"
 
 const map<std::string, Box> Drawing::piece_drawing = {
   {

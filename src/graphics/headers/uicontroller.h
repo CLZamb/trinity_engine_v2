@@ -14,7 +14,6 @@
 class UIController {
 public:
   UIController();
-  virtual ~UIController();
 
   void change_active_view(const string& name);
   void add_view(View view);

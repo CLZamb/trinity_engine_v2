@@ -14,4 +14,8 @@ add_library(
   window.cpp
   )
 
+target_include_directories(graphics_lib
+  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/headers"
+  )
+
 message("graphics library compiled")

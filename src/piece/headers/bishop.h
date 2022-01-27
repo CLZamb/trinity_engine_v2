@@ -9,9 +9,7 @@ template<Color color>
 class Bishop : public Piece {
 public:
   explicit Bishop(IMagicBitboardAttackType& m_bb);
-  virtual ~Bishop();
-  bool is_legal_non_attack_move(const Move&, const BoardBitboard& board) override;
-  bool is_legal_attack_move(const Move&, const BoardBitboard& board) override;
+  bool is_legal_move(Move&, BoardBitboard& board) override;
 
 private:
   SlidingMoves<color> bishop_moves;

@@ -30,13 +30,20 @@ class String {
     result.set_move(from, to);
     return result;
   }
+
+   static string to_str_move(string input) {
+     std::vector<string> list_pos;
+     list_pos = Regex::get_list_of_positions(input, format_single_position);
+     return (list_pos.size() == 2) ? list_pos[0] + list_pos[1] : "";
+   }
+
   static bool is_valid_move_format(const string& str_mv) {
     return Regex::match(str_mv, format_full_move);
   }
 
  private:
-  static const std::regex format_full_move;
-  static const std::regex format_single_position;
+  inline static const std::regex format_full_move = std::regex("([a-hA-H][1-8]\\s*[a-hA-H][1-8])");
+  inline static const std::regex format_single_position = std::regex("([a-hA-H]\\s*[1-8])");
 };
 
 

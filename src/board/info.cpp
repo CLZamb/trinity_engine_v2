@@ -1,9 +1,8 @@
-#include "headers/info.h"
+#include "info.h"
 
 Info::Info() : Displayable() {
   m_drawing.add_section(p_top_section);
   m_drawing.add_section(p_player_banner);
-  m_drawing.add_section(p_board_score);
   m_drawing.add_section(p_player_1_moves);
   m_drawing.add_section(p_player_1_captures);
   m_drawing.add_section(p_player_2_moves);
@@ -12,12 +11,9 @@ Info::Info() : Displayable() {
   m_drawing.add_section(p_bottom_section);
 }
 
-Info::~Info() {}
-
 void Info::clear() {
   m_drawing.fill(
       " ┃                                                          ┃");
-
   p_top_section->set_content(
       {" ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"});
   p_bottom_section->set_content(
@@ -30,7 +26,6 @@ void Info::draw() {
     p_player_banner->set_content(p_banners[m_turn]);
   }
 
-  format_block(p_board_score, board_score);
   format_block(p_player_1_moves, player_moves[players::player_1]);
   format_block(p_player_1_captures, player_captures[players::player_1]);
   format_block(p_player_2_moves, player_moves[players::player_2]);

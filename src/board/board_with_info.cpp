@@ -1,7 +1,6 @@
-#include "headers/board_with_info.h"
+#include "board_with_info.h"
 
 BoardWithInfo::BoardWithInfo() {}
-BoardWithInfo::~BoardWithInfo() {}
 
 void BoardWithInfo::make_move(Move m) {
   save_move(m);
@@ -64,3 +63,6 @@ bool BoardWithInfo::is_legal_move(std::shared_ptr<Player> turn, Move& m) {
   return m_board.is_legal_move(turn, m);
 }
 
+string BoardWithInfo::get_fen() {
+  return m_board.get_fen();
+}

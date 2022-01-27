@@ -1,8 +1,6 @@
-#include "headers/uicontroller.h"
-
+#include "uicontroller.h"
 
 UIController::UIController() {}
-UIController::~UIController() {}
 
 void UIController::add_view(View view) {
   views.emplace(view.Get_name(), view);

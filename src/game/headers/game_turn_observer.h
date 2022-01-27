@@ -7,7 +7,6 @@
 
 class GameTurnObserver {
  public:
-    virtual ~GameTurnObserver() {}
     virtual void update_turn(GameTurn::players turn) = 0;
  protected:
     // GameTurnObserver() {}

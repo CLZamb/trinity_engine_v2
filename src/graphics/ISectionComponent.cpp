@@ -1,8 +1,6 @@
-#include "headers/ISectionComponent.h"
+#include "ISectionComponent.h"
 
-ISectionComponent::ISectionComponent(size_t size) : m_size(size), m_section_drawing(size) {}
-
-ISectionComponent::~ISectionComponent() {}
+ISectionComponent::ISectionComponent(size_t size) : m_section_drawing(size), m_size(size) {}
 
 void ISectionComponent::set_parent_pane(Pane* parent_pane) {
   if (this->parent_pane) return;

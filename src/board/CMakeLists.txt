@@ -6,6 +6,8 @@ add_library(
   square.cpp
 )
 
-# add_executable(ipc ${SOURCE_FILES})
+target_include_directories(board_lib
+  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/headers"
+  )
 
 message("board library compiled")

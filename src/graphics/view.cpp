@@ -1,9 +1,8 @@
-#include "headers/view.h"
-
+#include "view.h"
 
 // View::View()  {}
 View::View(string name) {
-  this->name = name;
+  this->_name = name;
 }
 
 void View::print() {
@@ -11,9 +10,9 @@ void View::print() {
 }
 
 string View::Get_name() {
-  return name;
+  return _name;
 }
 
-string View::name{ "" }; // initializer
+string View::_name{ "" }; // initializer
 
     // static string name;

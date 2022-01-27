@@ -13,8 +13,13 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
+if (MSVC)
+  set(CMAKE_CXX_FLAGS "/W4")
+else()
+  set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic")
+endif()
+
 #flgas
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 

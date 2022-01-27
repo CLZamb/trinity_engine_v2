@@ -17,7 +17,6 @@ enum Msg : int {
 class GameDrawings {
  public:
     GameDrawings();
-    ~GameDrawings();
     void set_drawing(DrawingsState* message_state);
     std::string_view get_drawing();
     std::string_view get_drawing(DrawingsState* message_state);
@@ -29,6 +28,8 @@ class GameDrawings {
     DrawingsState* get_no_message();
     DrawingsState* get_top_menu();
     DrawingsState* get_bottom_menu();
+    DrawingsState* get_player_1_won();
+    DrawingsState* get_player_2_won();
 
  private:
     No_message m_no_message;
@@ -38,6 +39,8 @@ class GameDrawings {
     Choose_color m_choose_color;
     Top_Menu m_top_menu;
     Bottom_Menu m_bottom_menu;
+    Player_one_won m_player_1_won;
+    Player_two_won m_player_2_won;
     DrawingsState* p_current_state;
 };
 

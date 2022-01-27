@@ -11,7 +11,6 @@ class Pane;
 class ISectionComponent {
  public:
   explicit ISectionComponent(size_t size);
-  virtual ~ISectionComponent();
 
   vector<string>::iterator begin();
   vector<string>::iterator end();

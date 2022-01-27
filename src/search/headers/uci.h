@@ -4,11 +4,10 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "../../common/headers/common.h"
-#include "../headers/search.h"
+#include "search/builtin_engine/search/headers/search.h"
+#include "search/builtin_engine/logic/headers/AiPlayer.h"
 
 namespace UCI {
-
 class Handler {
  public:
   explicit Handler(Search* search);
@@ -26,7 +25,7 @@ class Handler {
   void debug_command();
   void noop();
  private:
-  Search* search;
+  Search* p_search;
 };
 }  // namespace UCI
 

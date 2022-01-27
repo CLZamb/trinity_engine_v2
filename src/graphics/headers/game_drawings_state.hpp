@@ -8,7 +8,6 @@ class GameDrawings;
 class DrawingsState {
  public:
   explicit DrawingsState(GameDrawings* msg);
-  virtual ~DrawingsState();
   const std::string_view get_drawing() { return m_string_drawing; }
  protected:
   GameDrawings* p_messages = nullptr;
@@ -48,5 +47,14 @@ struct Bottom_Menu : public DrawingsState {
   explicit Bottom_Menu(GameDrawings* msg);
 };
 
+struct Player_one_won : public DrawingsState {
+ public:
+  explicit Player_one_won(GameDrawings* msg);
+};
+
+struct Player_two_won : public DrawingsState {
+ public:
+  explicit Player_two_won(GameDrawings* msg);
+};
 
 #endif /* GAME_DRAWINGS_STATE_H */

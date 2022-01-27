@@ -1,14 +1,16 @@
 #include <iostream>
-#include "headers/uci.h"
-#include "headers/search.h"
+#include "builtin_engine/logic/headers/board.h"
+#include "search/builtin_engine/logic/headers/AiPlayer.h"
+#include "uci.h"
+#include "player/headers/player.h"
 
-using std::cout;
-using std::cin;
-using std::endl;
-using std::cerr;
+// using std::cout;
+// using std::cin;
+// using std::endl;
+// using std::cerr;
 /*
 argc	-	Non-negative value representing the number of arguments
-        passed to the program from the environment in which the
+        passed to the program from the environment in which thez
         program is run.
 argv	-	Pointer to the first element of an array of argc + 1 pointers,
         of which the last one is null and the previous ones, if any,
@@ -35,7 +37,15 @@ int main(int argc, char *argv[]) {
     argc++;
   }
 
-  Search engine;
+  Board m_board;
+  Search engine(&m_board);
+  AiPlayer player1(WHITE, engine);
+  Player player2(BLACK);
+
+  m_board.set_players(&player1, &player2);
+  m_board._init();
+  m_board.change_turn();
+
   UCI::Handler uci(&engine);
   uci.loop(argv[1]);
   return 0;

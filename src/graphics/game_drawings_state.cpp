@@ -1,7 +1,6 @@
-#include "headers/game_drawings_state.hpp"
+#include "game_drawings_state.hpp"
 
 DrawingsState::DrawingsState(GameDrawings* msg) : p_messages(msg) {}
-DrawingsState::~DrawingsState() {}
 
 Play_or_quit::Play_or_quit(GameDrawings* msg) : DrawingsState(msg) {
  m_string_drawing = p_play_or_quit_message;
@@ -30,3 +29,14 @@ Top_Menu::Top_Menu(GameDrawings* msg) : DrawingsState(msg) {
 Bottom_Menu::Bottom_Menu(GameDrawings* msg) : DrawingsState(msg) {
   m_string_drawing = p_bottom_menu;
 }
+
+
+Player_one_won::Player_one_won(GameDrawings* msg) : DrawingsState(msg) {
+  m_string_drawing = p_player_1_won;
+}
+
+Player_two_won::Player_two_won(GameDrawings* msg) : DrawingsState(msg) {
+  m_string_drawing = p_player_2_won;
+}
+
+

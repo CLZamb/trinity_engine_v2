@@ -2,7 +2,7 @@
 #define SLIDING_MOVES_H
 
 #include "magic_bitboard.h"
-#include "../../board/headers/defs.h"
+#include "../../common/headers/defs.h"
 #include "../../game/headers/move.h"
 #include "../../board/headers/BoardBitboard.h"
 
@@ -10,7 +10,6 @@ template<Color color>
 class SlidingMoves {
   public:
     SlidingMoves(const IMagicBitboardAttackType& at) : m_piece_attacks(at) {}
-    virtual ~SlidingMoves() {}
     virtual U64 get_sliding_attacks(const Move& m, const BoardBitboard& board) {
       U64 to = ONE << m.get_to();
 

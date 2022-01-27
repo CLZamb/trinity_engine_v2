@@ -1,5 +1,6 @@
-#include "headers/magic_bitboard.h"
-#include "../board/headers/defs.h"
+#include "magic_bitboard.h"
+#include "../common/headers/defs.h"
+#include <assert.h>
 
 // extern declaration in defs.h
 U64 SetMask[64];
@@ -19,9 +20,7 @@ MagicBitboard::MagicBitboard() {
   _init_tables(Rook);
 }
 
-MagicBitboard::~MagicBitboard() {}
-
-const U64 MagicBitboard::RookMagic[64] = {
+constexpr U64 MagicBitboard::RookMagic[64] = {
   0x2380004000201080ULL, 0x2040100020004001ULL, 0x180086002100080ULL, 0x4080048008021000ULL,
   0xa00086004100200ULL, 0x80018004004200ULL, 0x400640810030082ULL, 0x4280014100102080ULL,
   0x80a002600450080ULL, 0x4005004004802100ULL, 0x81004104102000ULL, 0x3441000921021000ULL,
@@ -40,7 +39,7 @@ const U64 MagicBitboard::RookMagic[64] = {
   0x42060088209c3042ULL, 0x700a604001811ULL, 0x80201100084ULL, 0x168004a21040086ULL
 };
 
-const U64 MagicBitboard::BishopMagic[64] = {
+constexpr U64 MagicBitboard::BishopMagic[64] = {
   0x4151002060840ULL, 0x403060403020001ULL, 0x1800c400800010ULL, 0x2848c100080024ULL,
   0x84050420e00001ULL, 0x4406090460180001ULL, 0x4014120846090024ULL, 0x4808150c01044004ULL,
   0x40448020400ULL, 0x100850a2020400b4ULL, 0x4042440800810080ULL, 0x7092440c02805000ULL,
@@ -95,21 +94,7 @@ U64 MagicBitboard::bishop_attacks(U64 occ, SquareIndices sq) const {
 }
 
 U64 MagicBitboard::queen_attacks(U64 occ, SquareIndices sq) const {
-  U64 result = 0ULL;
-  U64 temp_occ = occ;
-
-  occ &= m_bishop_tbl[sq].mask;
-  occ *= m_bishop_tbl[sq].magic;
-  occ >>=  m_bishop_tbl[sq].shift;
-
-  result = m_bishop_table[sq][occ];
-
-  temp_occ &= m_rook_tbl[sq].mask;
-  temp_occ *= m_rook_tbl[sq].magic;
-  temp_occ >>= m_rook_tbl[sq].shift;
-
-  result |= m_rook_table[sq][temp_occ];
-  return result;
+  return bishop_attacks(occ, sq) | rook_attacks(occ, sq);
 }
 
 

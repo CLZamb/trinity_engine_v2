@@ -9,9 +9,8 @@ template<Color color>
 class Rook : public Piece {
 public:
   explicit Rook(IMagicBitboardAttackType& mb);
-  virtual ~Rook();
-  bool is_legal_non_attack_move(const Move&, const BoardBitboard& board) override;
-  bool is_legal_attack_move(const Move&, const BoardBitboard& board) override;
+  ~ Rook() {}
+  bool is_legal_move(Move&, BoardBitboard& board) override;
 
 private:
   SlidingMoves<color> rook_moves;

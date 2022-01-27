@@ -1,14 +1,12 @@
-#include "headers/section.h"
+#include "section.h"
 
-Section::Section(string name, size_t size) :
+Section::Section(string name, size_t size /* size = 1 */) :
  ISectionComponent(size), m_name(name) {
   if (size >= std::numeric_limits<size_t>::max())
     std::cerr
       <<  "illegal size length: " << size
       << " on section " << name << std::endl;
 }
-
-Section::~Section() {}
 
 void Section::set_content_at_index(string content, const int& index) {
   if (!is_valid_index(index))

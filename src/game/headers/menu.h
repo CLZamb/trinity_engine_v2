@@ -1,7 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "board/headers/utils.h"
+#include "common/headers/utils.h"
 #include "graphics/headers/game_drawings_state.hpp"
 #include "graphics/headers/view.h"
 #include "options.h"
@@ -10,8 +10,7 @@
 template <typename T> class Menu {
 public:
   Menu() {}
-  Menu(MenuList<T> opts) : opts(opts), view(add_options_to_view(opts)) {}
-  virtual ~Menu() {}
+  Menu(MenuList<T> opts) : m_opts(opts), view(add_options_to_view(opts)) {}
 
   T select_option() { return select_menu_item().opt; }
 
@@ -22,13 +21,13 @@ public:
   MenuItem<T> &select_menu_item() {
     cout << "\t\t\tchoose one of the options:\n";
 
-    int input = -1;
+    char input = ' ';
     bool valid_option = false;
 
     while (!valid_option) {
       cout << "\t\t\t>> ";
       cin >> input;
-      valid_option = opts.check_valid_option(input);
+      valid_option = m_opts.check_valid_option(input);
 
       if (!valid_option) {
         cout << "\n\t\t\tinvalid option try again!" << endl;
@@ -39,7 +38,7 @@ public:
 
     cin.clear();
     cin.ignore();
-    return opts.find_at_index(input);
+    return m_opts.find_at_index(input);
   }
 
 private:
@@ -48,13 +47,13 @@ private:
     string str_menu_item;
     for (const auto &menuItem : opts) {
       MenuItem<T> item = menuItem.second;
-      str_menu_item = std::to_string(item.number_option) + ". " + item.name;
+      str_menu_item = std::string{item.option_key} + ". " + item.name;
       options.push_back(str_menu_item);
     }
     return options;
   }
 
-  MenuList<T> opts;
+  MenuList<T> m_opts;
   MenuView view;
   string str_view;
 };

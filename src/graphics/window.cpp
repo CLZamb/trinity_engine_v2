@@ -1,6 +1,6 @@
-#include "headers/window.h"
+#include "window.h"
+
 Window::Window() {}
-Window::~Window() {}
 
 // defatult size 44
 void Window::add_displayable(Displayable* pane, Pane_pos pos) {

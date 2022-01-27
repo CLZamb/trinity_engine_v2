@@ -1,8 +1,7 @@
 #ifndef MAGIC_BITBOARD_H
 #define MAGIC_BITBOARD_H
 #include <iostream>
-#include "../../board/headers/bit_utilities.h"
-#include <assert.h>
+#include "../../common/headers/bit_utilities.h"
 
 class MagicBitboard {
   private:
@@ -36,10 +35,9 @@ class MagicBitboard {
 
  public:
     MagicBitboard();
-    virtual ~MagicBitboard();
 
     U64 rook_attacks(U64 occ, SquareIndices sq) const;
-    U64 bishop_attacks(U64 occ, SquareIndices sq) const;
+    U64 bishop_attacks(U64 occ, SquareIndices sq)const;
     U64 queen_attacks(U64 occ, SquareIndices sq) const;
 };
 

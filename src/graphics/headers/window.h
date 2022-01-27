@@ -20,7 +20,6 @@ class Window {
     };
 
     Window();
-    virtual ~Window();
 
     void add_displayable(Displayable* pane, Pane_pos pos);
     // int get_pane_size(int index);

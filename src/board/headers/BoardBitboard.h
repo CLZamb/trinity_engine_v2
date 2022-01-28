@@ -1,9 +1,9 @@
 #ifndef BOARDBITBOARD_H
 #define BOARDBITBOARD_H
-#include "defs.h"
-#include "bit_utilities.h"
+#include "../../common/headers/defs.h"
+#include "../../common/headers/bit_utilities.h"
 
-class BoardBitboard{
+class BoardBitboard {
 public:
   BoardBitboard() {}
   virtual ~BoardBitboard() {}
@@ -30,8 +30,40 @@ public:
     bitUtility::clear_bit(&m_occupied, pos);
   }
 
-private:
+  void set_en_passant(SquareIndices pos, Color c) {
+    if (c == BLACK)
+      bitUtility::set_bit(&m_en_passant_black, pos);
+    else // c = white
+      bitUtility::set_bit(&m_en_passant_white, pos);
+  }
 
+  const U64& get_en_passant(Color c) {
+    return (c == BLACK) ? m_en_passant_black : m_en_passant_white;
+  }
+
+  void set_en_castle(SquareIndices pos, Color c) {
+    if (c == BLACK)
+      bitUtility::set_bit(&m_castle_black, pos);
+    else // c = white
+      bitUtility::set_bit(&m_castle_white, pos);
+  }
+
+  const U64& get_castle(Color c) {
+    return (c == BLACK) ? m_castle_black : m_castle_white;
+  }
+
+  void remove_en_passant(SquareIndices pos, Color c) {
+    if (c == BLACK)
+      bitUtility::clear_bit(&m_en_passant_black, pos);
+    else // c = white
+      bitUtility::clear_bit(&m_en_passant_white, pos);
+  }
+
+private:
+  U64 m_en_passant_black = BLANK;
+  U64 m_en_passant_white = BLANK;
+  U64 m_castle_black = BLANK;
+  U64 m_castle_white = BLANK;
   U64 m_all_w_pieces = BLANK;
   U64 m_all_b_pieces = BLANK;
   U64 m_occupied = BLANK;

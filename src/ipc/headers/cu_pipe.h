@@ -16,7 +16,6 @@ enum w_r {
   BUFFER_SIZE = 1024,
 };
 
-
 class CuPipe {
  public:
     CuPipe();

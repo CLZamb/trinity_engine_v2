@@ -1,4 +1,4 @@
-#include "headers/game_turn_observable.h"
+#include "game_turn_observable.h"
 #include <iostream>
 
 GameTurnObservable::GameTurnObservable() {

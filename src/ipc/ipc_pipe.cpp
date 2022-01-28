@@ -1,5 +1,8 @@
-#include "headers/ipc_pipe.h"
+#include "ipc_pipe.h"
 #include <filesystem>
+
+using std::cerr;
+using std::endl;
 
 namespace fs = std::__fs::filesystem;
 
@@ -12,15 +15,15 @@ IpcPipe::IpcPipe() {
   pid_t pid = fork();
 
   switch (pid) {
-    case error:
-      cerr << "fork failed" << endl;
-      break;
-    case child:
-      child_process();
-      break;
-    default:  // parent
-      parent_process();
-      break;
+  case error:
+    cerr << "fork failed" << endl;
+    break;
+  case child:
+    child_process();
+    break;
+  default: // parent
+    parent_process();
+    break;
   }
 }
 
@@ -31,36 +34,29 @@ IpcPipe::~IpcPipe() {
 }
 
 void IpcPipe::_init() {
-  request("uci");
-  request("isready");
+  std::cout << request("uci");
+  std::cout << request("isready");
 }
 
-string IpcPipe::request(string sending) {
-  string message = "";
-  sending += '\n';
-
+string IpcPipe::request(string &&s) const noexcept {
+  string sending = std::move(s) + '\n';
   parent_write_end->write(sending);
+  return get_result();
+}
 
+string IpcPipe::get_result() const {
+  string message = " ";
   message = parent_read_end->read();
   return message;
 }
 
-string IpcPipe::parent_read() {
-  return parent_read_end->read();
-}
+string IpcPipe::parent_read() { return parent_read_end->read(); }
 
-void IpcPipe::parent_write(string message) {
-  parent_write_end->write(message);
-}
+void IpcPipe::parent_write(string message) { parent_write_end->write(message); }
 
-string IpcPipe::chidl_read() {
-  return child_read_end->read();
-}
+string IpcPipe::chidl_read() { return child_read_end->read(); }
 
-void IpcPipe::child_write(string message) {
-  child_write_end->write(message);
-}
-
+void IpcPipe::child_write(string message) { child_write_end->write(message); }
 
 void IpcPipe::close_parent_ends() {
   parent_read_end->close_end(READ_END);
@@ -81,13 +77,10 @@ void IpcPipe::child_process() {
   string relative_path = fs::current_path();
   string exec_path = relative_path + "/build/bin/search";
 
-  const char* arguments[] = {
-     exec_path.c_str(),
-    // "uci",
-    nullptr };
-  execv(
-      const_cast<char *>(arguments[0]),
-      const_cast<char **>(arguments));
+  const char *arguments[] = {exec_path.c_str(),
+                             // "uci",
+                             nullptr};
+  execv(const_cast<char *>(arguments[0]), const_cast<char **>(arguments));
 
   // if exec fails
   cerr << "executable not found" << endl;
@@ -95,6 +88,4 @@ void IpcPipe::child_process() {
   exit(EXIT_FAILURE);
 }
 
-void IpcPipe::parent_process() {
-  close_child_ends();
-}
+void IpcPipe::parent_process() { close_child_ends(); }

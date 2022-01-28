@@ -2,7 +2,8 @@
 #define MOVE_H
 
 #include <cassert>
-#include "../../board/headers/utils.h"
+#include "../../common/headers/utils.h"
+
 /*
    0000 0000 0000 0000 0000 0011 1111 -> From 0x3F
    0000 0000 0000 0000 1111 1100 0000 -> To >> 6, 0x3F
@@ -16,8 +17,8 @@
 class Move {
   public:
     Move() {}
-    explicit Move(int m) : m_move(m) { }
-    Move(int m, int sc) : m_move(m), m_score(sc) {}
+    explicit Move(unsigned int m) : m_move(m) { }
+    Move(int m) : m_move(m) {}
     Move(unsigned int from, unsigned int to, unsigned int type) {
       m_move = (from & 0x3f) | ((to & 0x3f) << 6) | ((type & 0xf) << 17);
     }
@@ -39,22 +40,32 @@ class Move {
       return static_cast<Piecetype>((m_move >> 12) & 0xf);
     }
 
+    bool is_en_passant() const {
+      return ((m_move >> 16) & 0x1);
+    }
+
     Piecetype get_piece() const {
       return static_cast<Piecetype>((m_move >> 17) & 0xf);
     }
 
-    unsigned int get_score() const { return m_score; }
-    // bool is_en_pessand() const { (m_move >> 16) & 0x1; }
-    void set_to(unsigned int to) {
-      m_move &= ~0xfc0;
-      m_move |= (to & 0x3f) << 6;
-      assert(to == ((m_move >> 6) & 0x3f));
+    Piecetype get_promoted_piece() const {
+      return static_cast<Piecetype>((m_move >> 21) & 0xf);
+    }
+
+    bool is_castle() const {
+      return ((m_move >> 25) & 0x1);
     }
 
     void set_from(unsigned int from) {
       m_move &= ~0x3f;
       m_move |= (from & 0x3f);
       assert(from == (m_move & 0x3f));
+    }
+
+    void set_to(unsigned int to) {
+      m_move &= ~0xfc0;
+      m_move |= (to & 0x3f) << 6;
+      assert(to == ((m_move >> 6) & 0x3f));
     }
 
     void set_move(unsigned int from, unsigned int to, unsigned int type) {
@@ -77,7 +88,20 @@ class Move {
       assert(piece == ((m_move >> 17) & 0xf));
     }
 
-    void set_score(int score) { m_score = score; }
+    void set_en_passant(bool en_pessant) {
+      m_move &= ~0x10000;
+      m_move |= ((en_pessant & 0x1) << 16);
+    }
+
+    void set_promoted_piece(unsigned int piece) {
+      m_move &= ~0x1e00000;
+      m_move |= ((piece & 0xf) << 21);
+    }
+
+    void set_is_castle(bool is_castle) {
+      m_move &= ~0x2000000;
+      m_move |= ((is_castle & 0x1) << 25);
+    }
 
     bool operator==(Move a) const {
       return (m_move & 0xffff) == (a.m_move & 0xffff);
@@ -88,8 +112,9 @@ class Move {
     }
 
  private:
-    unsigned int m_move = 0;  // or short or template type
-    int m_score = 0;
+    unsigned int m_move;  // or short or template type
 };
+
+typedef std::vector<Move> MoveList;
 
 #endif /* MOVE_H */

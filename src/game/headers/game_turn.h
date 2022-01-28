@@ -10,7 +10,6 @@ class GameTurn {
     player_2 = 1
   };
 
-  virtual ~GameTurn();
   static const int kSize = 2;
 };
 

@@ -1,7 +1,6 @@
-#include "headers/square_drawing.h"
+#include "square_drawing.h"
 
-SquareDrawing::SquareDrawing() {
-}
+SquareDrawing::SquareDrawing() {}
 
 SquareDrawing::SquareDrawing(bool is_black_suqare) {
   p_empty_square_drawing = 
@@ -11,8 +10,6 @@ SquareDrawing::SquareDrawing(bool is_black_suqare) {
 
   p_cur_drawing = &p_empty_square_drawing;
 }
-
-SquareDrawing::~SquareDrawing(){}
 
 Box* SquareDrawing::get_drawing() {
   return p_cur_drawing;

@@ -1,10 +1,8 @@
-#include "headers/pane.h"
+#include "pane.h"
 
 Pane::Pane(int size /*= 44 */) {
   m_pane_drawing.reserve(size);
 }
-
-Pane::~Pane() {}
 
 void Pane::clear() {
   fill("");

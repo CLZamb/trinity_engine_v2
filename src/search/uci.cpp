@@ -1,8 +1,13 @@
-#include "headers/uci.h"
+#include "uci.h"
 #include <fstream>
 #include <filesystem>
+#include <iostream>
 
-namespace fs = std::__fs::filesystem;
+using std::cout;
+using std::endl;
+using std::cin;
+
+// namespace fs = std::__fs::filesystem;
 // void parse_go(string line, search_info info, Board *pos) {}
 // void parse_position(string line, Board *pos) {}
 using std::istringstream;
@@ -10,16 +15,14 @@ using std::skipws;
 using std::ofstream;
 
 namespace UCI {
-Handler::Handler(Search* search) {
-  this->search = search;
-}
+Handler::Handler(Search* search) : p_search(search) {}
 
 Handler::~Handler() {}
 
 void Handler::loop(const string& args) {
   string cmd = args, token;
 
-  // cout << "Trinity engine 2.1 by Deux" << endl;
+  cout << "Trinity engine 2.1 by Deux" << endl;
 
   do {
     if (args.empty() && !getline(cin, cmd))  // Block here waiting for input
@@ -59,15 +62,37 @@ void Handler::is_ready_command() {
   cout << "is ready" << endl;
 }
 
-void Handler::set_option_command(std::istringstream &inStream) {}
-void Handler::uci_new_game_command() {}
-void Handler::position_command(std::istringstream &inStream) {}
-void Handler::go_command(std::istringstream &inStream) {
- cout << "error" << endl;
+void Handler::set_option_command(std::istringstream &inStream) {
 }
+
+void Handler::uci_new_game_command() {
+}
+
+void Handler::position_command(std::istringstream &inStream) {
+  istringstream ss(inStream.str());
+  string buf;
+  vector<string> words;
+
+  while (ss >> buf)
+    words.push_back(buf);
+
+  for (auto& word : words) {
+    if (word != "position" && word != "startpos" && word != "moves") {
+      p_search->parser_fen(word);
+    }
+  }
+  cout << endl;
+}
+
+void Handler::go_command(std::istringstream &inStream) {
+  cout << "going \n";
+  p_search->search_best_move();
+}
+
 void Handler::stop_command() {}
 void Handler::ponder_hit_command() {}
 void Handler::register_command() {}
 void Handler::debug_command() {}
 void Handler::noop() {}
-}  // namespace UCI
+}  
+// namespace UCI

@@ -1,5 +1,5 @@
-#ifndef DRAWINGS_H
-#define DRAWINGS_H
+#ifndef PIECE_DRAWINGS_H
+#define PIECE_DRAWINGS_H
 
 #include "box.h"
 #include <string>
@@ -7,8 +7,8 @@
 #include <map>
 #include <iostream>
 #include <vector>
-#include "../../graphics//headers/game_drawings.hpp"
-#include "../../board/headers/utils.h"
+#include "../../graphics/headers/drawings.hpp"
+#include "../../common/headers/utils.h"
 
 using std::map;
 /*
@@ -108,27 +108,26 @@ class DrawingMod {
     };
 
     DrawingMod() {}
-    ~DrawingMod() {}
-
+    virtual ~DrawingMod() {}
     std::string modifier_to_str(const Code mod) {
       return "\033[" + std::to_string(mod) + "m";
     }
 
     void append(Code c, Box* drawing) {
-      mod = modifier_to_str(c).c_str();
+      m_mod = modifier_to_str(c).c_str();
 
       for (int i = 0; i < Box::kRowSize; ++i) {
         Box::copy_row(temp_copy, drawing->content[i]);
-        Box::copy_row(drawing->content[i], temp_copy, mod);
+        Box::copy_row(drawing->content[i], temp_copy, m_mod);
       }
     }
 
     void prepend(Code c, Box* drawing) {
-      mod = modifier_to_str(c).c_str();
+      m_mod = modifier_to_str(c).c_str();
 
       for (int i = 0; i < Box::kRowSize; ++i) {
         Box::copy_row(temp_copy, drawing->content[i]);
-        Box::copy_row(drawing->content[i], mod, temp_copy);
+        Box::copy_row(drawing->content[i], m_mod, temp_copy);
       }
     }
 
@@ -136,7 +135,7 @@ class DrawingMod {
     static const int kColumnSize = Box::kCharSize;
     static const int kSizeBox = sizeof(char[kColumnSize]);
     char temp_copy[kColumnSize];
-    const char* mod;
+    const char* m_mod;
 };
 
 
@@ -173,7 +172,7 @@ class PieceDrawing {
     black_square_drawing->addModifier(DrawingMod::BG_INVERSE);
   }
 
-  ~PieceDrawing() {
+  virtual ~PieceDrawing() {
     delete black_square_drawing;
     delete white_square_drawing;
   }
@@ -195,6 +194,7 @@ class PieceDrawing {
 
 class DrawingBuilder {
  public:
+  virtual ~DrawingBuilder() {}
   virtual void build_drawing(Piecetype pct)  = 0;
   virtual PieceDrawing* get_drawing() { return nullptr; }
 
@@ -206,7 +206,7 @@ class DrawingBuilder {
 class StandardDrawingBuilder : public DrawingBuilder {
  public:
   StandardDrawingBuilder() : piece_drawing(nullptr) {}
-  ~StandardDrawingBuilder() {}
+  virtual ~StandardDrawingBuilder() {}
 
   void build_drawing(Piecetype pct) override {
     std::string piece_type = utils::get_piece_str_name_from_piecetype(pct);
@@ -222,4 +222,4 @@ class StandardDrawingBuilder : public DrawingBuilder {
 };
 
 //
-#endif /* DRAWINGS_H */
+#endif /* PIECE_DRAWINGS_H */

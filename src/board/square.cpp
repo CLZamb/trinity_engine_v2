@@ -1,11 +1,10 @@
-#include "headers/square.h"
+#include "square.h"
 
 Square::Square(bool is_black_square):
   square_drawing(is_black_square),
   m_is_black_square(is_black_square) {}
 
 Square::Square() {}
-Square::~Square() {}
 
 void Square::set_piece(Piece* piece) {
   if (piece == nullptr) {

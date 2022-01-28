@@ -10,11 +10,11 @@
 class BoardDrawing : public Displayable {
   public:
     explicit BoardDrawing(std::array<Square, 64>& arr);
-    virtual ~BoardDrawing();
     void draw();
-    char left_border(int row, int col);
+    char left_border(const int &row, const int &col);
 
   private:
+    void _init();
     shared_ptr<Section> p_top_section;
     shared_ptr<Section> p_main;
     shared_ptr<Section> p_bottom_section;

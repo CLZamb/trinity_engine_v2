@@ -1,5 +1,4 @@
-#include "headers/piece.h"
-#include <ios>
+#include "piece.h"
 
 Piece::Piece(const Piecetype& type):
               m_type(type),
@@ -9,8 +8,8 @@ Piece::Piece(const Piecetype& type):
 
 Piece::~Piece() {}
 
-PieceDrawing* Piece::create_drawing(const Piecetype& m_type) {
-  drawing_builder.build_drawing(m_type);
+PieceDrawing* Piece::create_drawing(const Piecetype& type) {
+  drawing_builder.build_drawing(type);
 
   DrawingMod::Code piece_drawing_mod =
     this->black ? DrawingMod::BG_BLACK : DrawingMod::FG_WHITE;
@@ -33,4 +32,3 @@ bool Piece::is_black() {
 bool Piece::is_black_piece(int pct) {
   return utils::check::is_black_piece(pct);
 }
-

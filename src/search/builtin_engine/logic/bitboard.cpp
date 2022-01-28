@@ -1,11 +1,10 @@
-#include "headers/bitboard.h"
-#include <algorithm>
-#include <functional>
-#include <stdio.h>
-
+#include "bitboard.h"
 Bitboard::Bitboard() {}
 
-Bitboard::~Bitboard() {}
+Bitboard::~Bitboard() {
+  for (int i = EMPTY; i <= wK; i++)
+    delete m_pieces[i];
+}
 
 void Bitboard::_init() {
   _init_MvvLva();
@@ -14,11 +13,11 @@ void Bitboard::_init() {
 }
 
 void Bitboard::reset_all_pieces_bitboard() {
-  // for (int piece = bP; piece <= wK; ++piece) {
-  //   m_pieces[piece]->clear_bitboard();
-  // }
-  //
-  // m_all_w_pieces = m_all_b_pieces = m_occupied = BLANK;
+  for (int piece = bP; piece <= wK; ++piece) {
+    m_pieces[piece]->clear_bitboard();
+  }
+
+  m_all_w_pieces = m_all_b_pieces = m_occupied = BLANK;
 }
 
 void Bitboard::_init_pieces_table_values() {
@@ -45,7 +44,7 @@ void Bitboard::_init_MvvLva() {
 }
 
 Piece* Bitboard::get_piece(int type) {
-  // return m_pieces[type];
+  return m_pieces[type];
 }
 
 void Bitboard::_init_nonsliders_attacks() {
@@ -62,15 +61,15 @@ U64 Bitboard::pawn_mask(int sq, int side) {
   U64 from_sq = ONE << sq;
 
   if (side == WHITE) {
-    left_attack = bitUtility::shift<bitUtility::NORTH_WEST>(from_sq);
-    right_attack = bitUtility::shift<bitUtility::NORTH_EAST>(from_sq);
+    left_attack = bitUtility::shift<NORTH_WEST>(from_sq);
+    right_attack = bitUtility::shift<NORTH_EAST>(from_sq);
 
     pawn_mask |= left_attack;
     pawn_mask |= right_attack;
 
   } else {  // side == BLACK
-    left_attack = bitUtility::shift<bitUtility::SOUTH_EAST>(from_sq);
-    right_attack = bitUtility::shift<bitUtility::SOUTH_WEST>(from_sq);
+    left_attack = bitUtility::shift<SOUTH_EAST>(from_sq);
+    right_attack = bitUtility::shift<SOUTH_WEST>(from_sq);
 
     pawn_mask |= left_attack;
     pawn_mask |= right_attack;
@@ -83,14 +82,14 @@ U64 Bitboard::king_mask(int sq) {
   U64 king_mask = 0ULL;
   U64 from_sq = ONE << sq;
 
-  king_mask |= bitUtility::shift<bitUtility::NORTH>(from_sq);
-  king_mask |= bitUtility::shift<bitUtility::SOUTH>(from_sq);
-  king_mask |= bitUtility::shift<bitUtility::EAST>(from_sq);
-  king_mask |= bitUtility::shift<bitUtility::WEST>(from_sq);
-  king_mask |= bitUtility::shift<bitUtility::NORTH_EAST>(from_sq);
-  king_mask |= bitUtility::shift<bitUtility::NORTH_WEST>(from_sq);
-  king_mask |= bitUtility::shift<bitUtility::SOUTH_EAST>(from_sq);
-  king_mask |= bitUtility::shift<bitUtility::SOUTH_WEST>(from_sq);
+  king_mask |= bitUtility::shift<NORTH>(from_sq);
+  king_mask |= bitUtility::shift<SOUTH>(from_sq);
+  king_mask |= bitUtility::shift<EAST>(from_sq);
+  king_mask |= bitUtility::shift<WEST>(from_sq);
+  king_mask |= bitUtility::shift<NORTH_EAST>(from_sq);
+  king_mask |= bitUtility::shift<NORTH_WEST>(from_sq);
+  king_mask |= bitUtility::shift<SOUTH_EAST>(from_sq);
+  king_mask |= bitUtility::shift<SOUTH_WEST>(from_sq);
   return king_mask;
 }
 
@@ -99,55 +98,55 @@ U64 Bitboard::knight_mask(int sq) {
   U64 from_sq = ONE << sq;
   U64 shift = BLANK;
 
-  shift = bitUtility::shift<bitUtility::SOUTH_SOUTH>(from_sq);
-  shift = bitUtility::shift<bitUtility::WEST>(shift);
+  shift = bitUtility::shift<SOUTH_SOUTH>(from_sq);
+  shift = bitUtility::shift<WEST>(shift);
   if (shift & NOT_H_FILE)
     result |= shift & NOT_H_FILE;
 
-  shift = bitUtility::shift<bitUtility::SOUTH_SOUTH>(from_sq);
-  shift = bitUtility::shift<bitUtility::EAST>(shift);
+  shift = bitUtility::shift<SOUTH_SOUTH>(from_sq);
+  shift = bitUtility::shift<EAST>(shift);
   if (shift & NOT_A_FILE)
     result |= shift & NOT_A_FILE;
 
-  shift = bitUtility::shift<bitUtility::SOUTH_WEST>(from_sq);
-  shift = bitUtility::shift<bitUtility::WEST>(shift);
+  shift = bitUtility::shift<SOUTH_WEST>(from_sq);
+  shift = bitUtility::shift<WEST>(shift);
   if (shift & NOT_GH_FILE)
     result |= shift & NOT_GH_FILE;
 
-  shift = bitUtility::shift<bitUtility::SOUTH_EAST>(from_sq);
-  shift = bitUtility::shift<bitUtility::EAST>(shift);
+  shift = bitUtility::shift<SOUTH_EAST>(from_sq);
+  shift = bitUtility::shift<EAST>(shift);
   if (shift & NOT_AB_FILE)
     result |= shift & NOT_AB_FILE;
 
-  shift = bitUtility::shift<bitUtility::NORTH_NORTH>(from_sq);
-  shift = bitUtility::shift<bitUtility::EAST>(shift);
+  shift = bitUtility::shift<NORTH_NORTH>(from_sq);
+  shift = bitUtility::shift<EAST>(shift);
   if (shift & NOT_A_FILE)
     result |= shift & NOT_A_FILE;
 
-  shift = bitUtility::shift<bitUtility::NORTH_NORTH>(from_sq);
-  shift = bitUtility::shift<bitUtility::WEST>(shift);
+  shift = bitUtility::shift<NORTH_NORTH>(from_sq);
+  shift = bitUtility::shift<WEST>(shift);
   if (shift & NOT_H_FILE)
     result |= shift & NOT_H_FILE;
 
-  shift = bitUtility::shift<bitUtility::NORTH_EAST>(from_sq);
-  shift = bitUtility::shift<bitUtility::EAST>(shift);
+  shift = bitUtility::shift<NORTH_EAST>(from_sq);
+  shift = bitUtility::shift<EAST>(shift);
   if (shift & NOT_AB_FILE)
     result |= shift & NOT_AB_FILE;
 
-  shift = bitUtility::shift<bitUtility::NORTH_WEST>(from_sq);
-  shift = bitUtility::shift<bitUtility::WEST>(shift);
+  shift = bitUtility::shift<NORTH_WEST>(from_sq);
+  shift = bitUtility::shift<WEST>(shift);
   if (shift & NOT_GH_FILE)
     result |= shift & NOT_GH_FILE;
 
   return result;
 }
 
-// U64 Bitboard::get_piece_bitboard(int type) const {
-//   assert(utils::check::is_valid_piece(type));
-//   // assert(m_pieces[type]);
-//
-//   return m_pieces[type]->get_bitboard();
-// }
+U64 Bitboard::get_piece_bitboard(int type) const {
+  assert(utils::check::is_valid_piece(type));
+  assert(m_pieces[type]);
+
+  return m_pieces[type]->get_bitboard();
+}
 
 U64 Bitboard::get_piece_attacks(int type, SquareIndices from) {
   switch (type) {
@@ -180,23 +179,18 @@ U64 Bitboard::get_non_attack_moves(int type, SquareIndices from) {
 
   U64 forward_one_sq = BLANK;
   U64 forward_two_sq = BLANK;
-  U64 own_piece = m_pieces[type] & (ONE << from);
+  U64 own_piece = m_pieces[type]->get_bitboard() & (ONE << from);
   const U64 free_squares = ~m_occupied;
 
   if (type == bP) {
-    forward_one_sq =
-      bitUtility::shift<bitUtility::SOUTH>(own_piece) & free_squares;
-    forward_two_sq =
-      bitUtility::shift<bitUtility::SOUTH>(forward_one_sq
-          & ROWMASK[5]) & free_squares;
+    forward_one_sq = bitUtility::shift<SOUTH>(own_piece) & free_squares;
+    forward_two_sq = bitUtility::shift<SOUTH>(forward_one_sq & ROWMASK[5]) & free_squares;
     return forward_one_sq | forward_two_sq;
+  } else {  // white pawn
+    forward_one_sq = bitUtility::shift<NORTH>(own_piece) & free_squares;
+    forward_two_sq = bitUtility::shift<NORTH>(forward_one_sq & ROWMASK[2]) & free_squares;
   }
 
-  // white pawn
-  forward_one_sq =
-    bitUtility::shift<bitUtility::NORTH>(own_piece) & free_squares;
-  forward_two_sq =
-    bitUtility::shift<bitUtility::NORTH>(forward_one_sq & ROWMASK[2]) & free_squares;
   return forward_one_sq | forward_two_sq;
 }
 
@@ -207,7 +201,7 @@ void Bitboard::gen_all_piece_moves(int type, MoveList* moveList, bool quiet /*tr
   int from = 0;
   Move mv;
 
-  origin_bitboard = m_pieces[type];
+  origin_bitboard = m_pieces[type]->get_bitboard();
   while (origin_bitboard) {
     from = bitUtility::pop_1st_bit(&origin_bitboard);
     dest_bitboard =
@@ -253,7 +247,7 @@ void Bitboard::gen_pawn_black_moves(MoveList* move_list, bool quiet/*true*/) {
 }
 
 void Bitboard::gen_pawn_black_quiet_moves(MoveList* move_list) {
-  U64 own = m_pieces[bP];
+  U64 own = m_pieces[bP]->get_bitboard();
   U64 forward_one_sq = bitUtility::shift<SOUTH>(own) & ~m_occupied;
   U64 forward_two_sq =
     bitUtility::shift<SOUTH>(forward_one_sq & ROWMASK[5]) & ~m_occupied;

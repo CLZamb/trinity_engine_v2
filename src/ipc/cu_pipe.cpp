@@ -1,4 +1,4 @@
-#include"headers/cu_pipe.h"
+#include"cu_pipe.h"
 
 CuPipe::CuPipe() {
   if (pipe(m_handles.data()) < 0) {
@@ -20,6 +20,7 @@ string CuPipe::read() {
 
   if (n_bytes > 0 && n_bytes <= BUFFER_SIZE)
     return {buffer.data(), n_bytes};
+
   return {};
 }
 
@@ -32,7 +33,6 @@ void CuPipe::redirect_input() {
   dup2(m_handles.at(READ_END), STDIN_FILENO);
   close(m_handles.at(READ_END));
 }
-
 
 void CuPipe::write(string message) {
   ::write(m_handles.at(WRITE_END), message.c_str(), message.size());

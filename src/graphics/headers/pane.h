@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
-#include "../../board/headers/utils.h"
+#include "../../common/headers/utils.h"
 #include "ISectionComponent.h"
 
 using std::string;
@@ -14,7 +14,6 @@ using std::shared_ptr;
 class Pane {
  public:
   explicit Pane(int size);
-  virtual ~Pane();
   void clear();
   void fill(const string& content);
   void add_section(shared_ptr<ISectionComponent> section);

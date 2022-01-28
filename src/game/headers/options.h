@@ -6,60 +6,44 @@
 #include <iostream>
 #include <unordered_map>
 
-using std::cin;
-using std::cout;
-using std::endl;
 using std::unordered_map;
 
-template <typename T>
-class Options {
- public:
-  Options() {}
-  Options(std::initializer_list<T> lst) {
-    int index = start_index;
-    for (const auto l : lst) {
-      options.emplace(index++, l);
+template <typename T> struct MenuItem {
+  MenuItem(char c, string n, T o) : opt{o}, name{n}, option_key{c} {}
+  MenuItem() = default;
+
+  T opt{};
+  string name{""};
+  char option_key{'\0'};
+};
+
+template <typename T> class MenuList {
+public:
+  MenuList() {}
+  MenuList(std::initializer_list<MenuItem<T>> lst) {
+    for (auto &l : lst) {
+      options.emplace(l.option_key, l);
     }
   }
 
-  virtual ~Options() {}
+  void add_options(T item) { options.emplace(options.size() - 1, item); }
 
-  void add_options(T item) {
-    options.emplace(options.size() - 1, item);
+  MenuItem<T> &find_at_index(const char& index) {
+    return options.find(index)->second;
   }
 
-  T& select_option() {
-    cout << "\t\tchoose one of the options (" 
-      << start_index << " - "
-      << options.size() << "): ";
-
-    int input = -1;
-    bool valid_option = false;
-
-    while (!valid_option) {
-      cin >> input;
-      valid_option = check_valid_option(input);
-
-      if (!valid_option) {
-        cout << "invalid option try again!" << endl;
-        cin.clear();
-        cin.ignore();
-      }
-    }
-
-    cin.clear();
-    cin.ignore();
-    return options.find(input)->second;
+  typename std::unordered_map<char, MenuItem<T>>::iterator begin() {
+    return options.begin();
   }
 
- private:
-  static const size_t start_index = 1;
-
-  bool check_valid_option(int i) {
-    return options.find(i) != options.end();
+  typename std::unordered_map<char, MenuItem<T>>::iterator end() {
+    return options.end();
   }
 
-  unordered_map<int, T> options;
+  bool check_valid_option(const char& i) { return options.find(i) != options.end(); }
+
+private:
+  unordered_map<char, MenuItem<T>> options;
 };
 
 #endif /* OPTIONS_H */

@@ -20,9 +20,8 @@ class Window {
     };
 
     Window();
-    virtual ~Window();
 
-    void add_pane(Displayable* pane, Pane_pos pos);
+    void add_displayable(Displayable* pane, Pane_pos pos);
     // int get_pane_size(int index);
     friend ostream& operator << (ostream &os,  Window &);
 

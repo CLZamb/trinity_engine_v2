@@ -13,19 +13,22 @@ target_link_libraries(${chess_tests} PUBLIC
   gmock
   gtest_main
   pthread
+  
   # required libraries
+  common_lib
   board_lib
-  game_lib
   graphics_lib
   piece_lib
   player_lib
+  # game_lib
+  # ipc_lib
+  # search_lib
 )
 
 include(GoogleTest)
 # gtest
 message(STATUS ${gtest_SOURCE_DIR})
 # include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
 
 target_include_directories(
   ${chess_tests} PUBLIC

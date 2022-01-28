@@ -1,9 +1,6 @@
-#include "headers/players.h"
+#include "players.h"
 
-Players::Players() {}
-Players::~Players() {}
-
-void Players::create_players(const PlayerConfig& config) {
+Players::Players(const PlayerConfig& config) {
   player_1 = create_new_player(config.P1, WHITE);
   player_2 = create_new_player(config.P2, BLACK);
 

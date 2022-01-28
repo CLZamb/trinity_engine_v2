@@ -1,10 +1,9 @@
-#include "headers/window.h"
+#include "window.h"
 
 Window::Window() {}
-Window::~Window() {}
 
 // defatult size 44
-void Window::add_pane(Displayable* pane, Pane_pos pos) {
+void Window::add_displayable(Displayable* pane, Pane_pos pos) {
   if (panes.size() >= Max_panes_size)
     return;
 

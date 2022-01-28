@@ -5,8 +5,6 @@
 #include <iostream>
 #include <string>
 
-using std::cerr;
-using std::endl;
 using std::string;
 
 enum processes_type {
@@ -21,9 +19,10 @@ class IpcPipe {
     virtual ~IpcPipe();
 
     void _init();
-    string request(string sending);
+    string request(string&& sending) const noexcept;
 
  private:
+    string get_result() const;
     CuPipe read_pipe;
     CuPipe write_pipe;
     CuPipe* parent_read_end;

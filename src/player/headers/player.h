@@ -6,11 +6,11 @@
 #include <iostream>
 #include <regex>
 #include <string>
-#include "../../board/headers/utils.h"
+#include "../../common/headers/utils.h"
 
 using std::string;
 
-
+// template<Color color>
 class Player {
  public:
    enum Type {
@@ -19,7 +19,6 @@ class Player {
    };
 
    explicit Player(Color);
-   virtual ~Player();
    void set_opponent(std::shared_ptr<Player> opponent);
    bool has_black_pieces();
    std::shared_ptr<Player> get_opponent();
@@ -32,6 +31,7 @@ class Player {
    int ply = 1;
 };
 
+// template<Color color>
 struct PlayerConfig {
   Player::Type P1;
   Player::Type P2;

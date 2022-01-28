@@ -12,8 +12,7 @@ using std::vector;
 
 class Section : public ISectionComponent {
  public:
-  explicit Section(string name, size_t size);
-  virtual ~Section();
+  explicit Section(string name, size_t size = 1);
   const string* at(int index);
   void set_content_at_index(string, const int&);
   void set_content(std::initializer_list<string>);

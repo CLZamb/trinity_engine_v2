@@ -7,7 +7,6 @@ class SquareDrawing {
 public:
   SquareDrawing();
   SquareDrawing(bool is_black_squared);
-  virtual ~SquareDrawing();
   Box* get_drawing();
   char* at(int i);
   void clear_square();

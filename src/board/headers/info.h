@@ -9,11 +9,11 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "../../graphics//headers/pieces_drawings.hpp"
+#include "../../graphics/headers/pieces_drawings.hpp"
 #include "savable.h"
-#include "../../graphics//headers/game_drawings.hpp"
-#include "../../graphics//headers/Idisplay.h"
-#include "../../graphics//headers/section.h"
+#include "../../graphics/headers/game_drawings.hpp"
+#include "../../graphics/headers/Idisplay.h"
+#include "../../graphics/headers/section.h"
 #include "../../game/headers/game_turn_observer.h"
 
 using std::vector;
@@ -26,9 +26,7 @@ using players = GameTurn::players;
 class Info : public Displayable, public Savable {
  public:
     Info();
-    virtual ~Info();
     void draw();
-    void _init();
     void save_move(const string& moves);
     void save_capture(const string& moves);
     void save_game_info(const string& info);
@@ -53,18 +51,16 @@ class Info : public Displayable, public Savable {
         &Banner::player2
       };
 
-    shared_ptr<Section> p_top_section;
-    shared_ptr<Section> p_player_banner;
-    shared_ptr<Section> p_board_score;
-    shared_ptr<Section> p_player_1_moves;
-    shared_ptr<Section> p_player_2_moves;
-    shared_ptr<Section> p_player_1_captures;
-    shared_ptr<Section> p_player_2_captures;
-    shared_ptr<Section> p_game_info;
-    shared_ptr<Section> p_bottom_section;
-
-    string board_score;
     GameTurn::players m_turn = GameTurn::players::player_1;
+
+    shared_ptr<Section>  p_top_section = make_unique<Section>("top");
+    shared_ptr<Section> p_player_banner = make_unique<Section>("Player banner", p_banners[m_turn]->size());
+    shared_ptr<Section> p_player_2_captures = make_unique<Section>("[Black captures]", 4);
+    shared_ptr<Section> p_player_1_captures = make_unique<Section>("[White Captures]", 4);
+    shared_ptr<Section> p_player_2_moves = make_unique<Section>("[Black moves]", 9);
+    shared_ptr<Section> p_player_1_moves = make_unique<Section>("[White Moves]", 9);
+    shared_ptr<Section> p_game_info = make_unique<Section>("[Game info]", 9);
+    shared_ptr<Section> p_bottom_section = make_unique<Section>("bottom");
 };
 
 #endif /* INFO_H */
